@@ -31,7 +31,7 @@ ffmpeg-python==0.2.0
 imageio-ffmpeg>=0.5.1
 imageio>=2.34.0
 pillow==10.1.0
-opencv-python==4.8.1.78
+opencv-python-headless==4.8.1.78
 
 # API Server
 fastapi==0.109.0
