@@ -48,7 +48,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+@app.get("/")
+async def root():
+    return {
+        "status": "online",
+        "message": "Viral Engine API is running",
+        "version": "2.0.0",
+        "docs": "/docs"
+    }
 
 # ---------------------------------------------------------------------------
 # Auto-cleanup: remove render/asset files older than 24 hours on startup

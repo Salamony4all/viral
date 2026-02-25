@@ -10,7 +10,7 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 from loguru import logger
 from config.settings import (
-    OLLAMA_BASE_URL, COMFYUI_BASE_URL, TRENDS_DIR, 
+    COMFYUI_BASE_URL, TRENDS_DIR, 
     RENDER_DIR, REVIEW_DIR, LOG_FILE, LOG_LEVEL
 )
 
@@ -77,7 +77,6 @@ async def verify_infrastructure() -> Dict[str, bool]:
     logger.info("Verifying infrastructure...")
     
     checks = {
-        "Ollama LLM": await check_service_health("Ollama", f"{OLLAMA_BASE_URL}/api/tags"),
         "ComfyUI API": await check_service_health("ComfyUI", f"{COMFYUI_BASE_URL}/api/"),
     }
     
