@@ -113,9 +113,8 @@ dmypy.json
 # Pyre
 .pyre/
 
-# ffmpeg
-*.m3u8
-*.ts
+# ffmpeg (HLS segments)
+workspace/**/*.ts
 
 # Node (if any frontend)
 node_modules/
