@@ -18,9 +18,9 @@ export const LogConsole: React.FC = () => {
     let reconnectTimeout: NodeJS.Timeout;
 
     const connect = () => {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const host = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
-      ws = new WebSocket(`${protocol}//${host}:8000/ws/logs`);
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const wsUrl = apiBase.replace(/^http/, 'ws') + '/ws/logs';
+      ws = new WebSocket(wsUrl);
 
       ws.onopen = () => {
         setIsConnected(true);
