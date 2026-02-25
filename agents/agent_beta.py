@@ -563,10 +563,10 @@ Generate the script now:
                 self.logger.warning("GOOGLE_VEO_API_KEY missing - skipping Gemini scripting")
                 return None
             
-            self.logger.info("Calling Google Gemini 1.5-Flash for script...")
+            self.logger.info("Calling Google Gemini 2.0-Flash for script...")
             client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.0-flash",
                 contents=prompt
             )
             if response.text:

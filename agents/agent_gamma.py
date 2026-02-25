@@ -613,13 +613,12 @@ class MediaForgeAgent:
 
                 self.logger.info(f"Scene {idx} Veo Prompt: {prompt[:100]}...")
 
-                # Config: only use parameters confirmed in official docs
-                # Supported: aspect_ratio, negative_prompt, person_generation
-                config = types.GenerateVideosConfig(
-                    aspect_ratio="9:16",
-                    negative_prompt="cartoon, drawing, low quality, blurry",
-                    person_generation="allow_all",
-                )
+                # Config: use dictionary for robustness in case types.GenerateVideosConfig is missing
+                config = {
+                    "aspect_ratio": "9:16",
+                    "negative_prompt": "cartoon, drawing, low quality, blurry",
+                    "person_generation": "allow_all",
+                }
 
                 try:
                     operation = client.models.generate_videos(
@@ -1203,19 +1202,29 @@ class MediaForgeAgent:
             lines.append(current)
         return "\n".join(lines)
 
-    def _resolve_font(self) -> str:
+    async def _resolve_font(self) -> str:
         """Find a font file that supports Arabic/Latin glyphs with bold viral style."""
+        # Windows candidates
         candidates = [
             "C:/Windows/Fonts/ariblk.ttf",   # Arial Black
             "C:/Windows/Fonts/segoeuib.ttf", # Segoe UI Bold
             "C:/Windows/Fonts/arialbd.ttf",   # Arial Bold
             "C:/Windows/Fonts/arial.ttf",
-            "C:/Windows/Fonts/tahoma.ttf",
         ]
-        for p in candidates:
+        # Linux candidates (Railway/Vercel)
+        linux_candidates = [
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+            "/usr/share/fonts/truetype/roboto/Roboto-Bold.ttf",
+            "/usr/share/fonts/TTF/DejaVuSans-Bold.ttf",
+        ]
+        
+        for p in candidates + linux_candidates:
             if Path(p).exists():
                 return p.replace("\\", "/").replace(":", "\\\\:")
-        return ""
+        
+        # Fallback to just font name if fontconfig is available
+        return "Arial"
 
     async def add_captions_to_video(
         self,
@@ -1232,7 +1241,7 @@ class MediaForgeAgent:
 
         lang = self.script_data.get("language", "en")
         is_arabic = lang == "ar"
-        font_path = self._resolve_font()
+        font_path = await self._resolve_font()
 
         try:
             vf_parts: List[str] = []

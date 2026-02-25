@@ -128,7 +128,7 @@ Respond in JSON format.
                 
             client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.0-flash",
                 contents=prompt,
                 config={"response_mime_type": "application/json"}
             )
@@ -284,7 +284,7 @@ Respond ONLY in JSON format with: cta_text, placement_timing, delivery_tone
                     
                 client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
                 response = client.models.generate_content(
-                    model="gemini-1.5-flash",
+                    model="gemini-2.0-flash",
                     contents=prompt,
                     config={"response_mime_type": "application/json"}
                 )

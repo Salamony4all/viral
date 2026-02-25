@@ -53,7 +53,7 @@ class TrendHunterAgent:
             
             client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.0-flash",
                 contents=full_prompt
             )
             return response.text
