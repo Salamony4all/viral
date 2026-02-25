@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  # Ollama LLM Server - Local AI Model Inference
+  ollama:
+    image: ollama/ollama:latest
+    container_name: viral-engine-ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - viral-engine
+
+  # ComfyUI - Image/Video Generation via Stable Diffusion
+  comfyui:
+    image: comfyorg/comfyui:latest
+    container_name: viral-engine-comfyui
+    ports:
+      - "8188:8188"
+    volumes:
+      - comfyui-models:/home/user/ComfyUI/models
+      - comfyui-output:/home/user/ComfyUI/output
+    environment:
+      - GPU_DEVICE=0  # Adjust for your GPU if using CUDA
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8188/api/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - viral-engine
+    # Uncomment for GPU support (requires nvidia-docker)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # PostgreSQL - Optional: For analytics and content tracking
+  postgres:
+    image: postgres:15-alpine
+    container_name: viral-engine-postgres
+    environment:
+      POSTGRES_DB: viral_engine
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-viral_engine_pwd}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - viral-engine
+
+  # Redis - Optional: For caching and task queue
+  redis:
+    image: redis:7-alpine
+    container_name: viral-engine-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - viral-engine
+
+  # Python App Service - Viral Engine Application
+  viral-engine-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: viral-engine-app
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      COMFYUI_BASE_URL: http://comfyui:8188
+      OLLAMA_MODEL: mistral
+      LOG_LEVEL: INFO
+      MONETIZATION_FOCUS: hybrid
+      DATABASE_URL: postgresql://admin:${DB_PASSWORD:-viral_engine_pwd}@postgres:5432/viral_engine
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8000:8000"  # API port (if implemented)
+    volumes:
+      - ./workspace:/app/workspace
+      - ./logs:/app/logs
+      - ./config:/app/config
+    depends_on:
+      ollama:
+        condition: service_healthy
+      comfyui:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - viral-engine
+    command: python main.py
+
+networks:
+  viral-engine:
+    driver: bridge
+
+volumes:
+  ollama-data:
+  comfyui-models:
+  comfyui-output:
+  postgres-data:
+  redis-data:

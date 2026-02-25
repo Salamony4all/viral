@@ -1,0 +1,77 @@
+# Core Framework
+crewai==0.28.8
+langchain==0.1.16
+langchain-community==0.0.38
+
+# LLM & Embeddings (Ollama local)
+ollama==0.0.15
+langchain-ollama==0.0.1
+
+# OpenAI-compatible API (Baidu AI Studio / Ernie)
+openai>=1.0.0
+
+# Text-to-video (Google Veo 3.1, Replicate)
+google-genai>=1.0.0
+replicate>=1.0.0
+
+# Web Scraping & Automation
+playwright==1.40.0
+beautifulsoup4==4.12.2
+requests==2.31.0
+yt-dlp==2023.12.30
+selenium==4.15.2
+
+# Data Processing
+pandas==2.1.4
+numpy==1.24.3
+python-dotenv==1.0.0
+pydantic==2.5.0
+
+# File & Media Operations
+ffmpeg-python==0.2.1
+imageio-ffmpeg>=0.5.1
+imageio>=2.34.0
+pillow==10.1.0
+opencv-python==4.8.1.78
+
+# API Server
+fastapi==0.109.0
+uvicorn==0.27.0
+
+# HTTP Clients
+aiohttp==3.9.1
+httpx==0.25.2
+
+# Text-to-Speech
+edge-tts>=7.0.0
+
+# Optional: Coqui TTS (heavy, requires PyTorch)
+# TTS==0.22.0
+# torch==2.1.2
+# torchaudio==2.1.2
+
+# Voice Conversion (RVC)
+librosa==0.10.0
+soundfile==0.12.1
+scipy==1.11.4
+
+# Utilities
+tqdm==4.66.1
+pyyaml==6.0.1
+jsonschema==4.20.0
+rich==13.7.0
+loguru==0.7.2
+
+# ComfyUI API Communication
+websocket-client==1.6.4
+
+# Monitoring & Notifications
+requests-toolbelt==1.0.0
+
+# Optional: Telegram Notifications
+python-telegram-bot==20.3
+
+# Development
+pytest==7.4.3
+black==23.12.0
+flake8==6.1.0

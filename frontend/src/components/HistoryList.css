@@ -1,0 +1,165 @@
+.history-list-container {
+    padding: 10px 0;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #e2e8f0;
+}
+
+.history-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.history-count {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.history-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(139, 92, 246, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.history-item.completed:hover {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* Delete button */
+.delete-item-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.history-item:hover .delete-item-btn {
+    opacity: 1;
+}
+
+.delete-item-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    transform: scale(1.1);
+}
+
+.item-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-topic {
+    color: #f1f5f9;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 28px;
+}
+
+.item-date {
+    color: #64748b;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+.item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.status-icon.success {
+    color: #22c55e;
+}
+
+.status-icon.error {
+    color: #ef4444;
+}
+
+.status-icon.info {
+    color: #3b82f6;
+}
+
+.status-icon.running {
+    color: #a855f7;
+    animation: spin 2s linear infinite;
+}
+
+.item-assets-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: rgba(139, 92, 246, 0.15);
+    color: #a78bfa;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.no-history {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.history-loading {
+    text-align: center;
+    padding: 40px;
+    color: #a78bfa;
+}

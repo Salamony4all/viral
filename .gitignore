@@ -1,0 +1,132 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Project Specific
+workspace/
+logs/
+.env
+!.env.example
+
+# Generated Media
+*.mp4
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+postgres-data/
+redis-data/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+.directory
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Certificates & Keys (SECURITY!)
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+
+# API Keys & Secrets
+.env
+.env.local
+.env.*.local
+secrets/
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# ffmpeg
+*.m3u8
+*.ts
+
+# Node (if any frontend)
+node_modules/
+npm-debug.log
+
+# Keep review folder structure but ignore content
+workspace/review/*
+!workspace/review/.gitkeep
+workspace/assets/*
+!workspace/assets/.gitkeep
+workspace/render/*
+!workspace/render/.gitkeep
+workspace/trends/*
+!workspace/trends/.gitkeep

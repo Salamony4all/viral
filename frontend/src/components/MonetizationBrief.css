@@ -1,0 +1,360 @@
+.monetization-brief {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.brief-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+}
+
+.brief-header svg {
+  color: white;
+}
+
+.brief-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Earnings */
+.earnings-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 22px;
+  padding: 22px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(236, 72, 153, 0.06));
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 14px;
+}
+
+.earnings-card > svg {
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.earnings-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.earnings-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.earnings-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.earnings-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.earnings-scenario {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+  min-width: 110px;
+}
+
+.earnings-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+
+.earnings-value.viral {
+  color: #ec4899;
+  font-size: 20px;
+}
+
+/* Products */
+.products-section {
+  padding: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.products-section h4 {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.products-section h4 svg {
+  color: #a78bfa;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.product-card {
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.product-card:hover {
+  border-color: rgba(167, 139, 250, 0.2);
+  background: rgba(167, 139, 250, 0.04);
+}
+
+.product-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.product-card h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+  line-height: 1.3;
+}
+
+.product-network {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  background: rgba(167, 139, 250, 0.1);
+  color: #a78bfa;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.product-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.product-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+
+.product-commission {
+  font-size: 12px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.product-rating {
+  font-size: 13px;
+  color: #f59e0b;
+  margin-bottom: 6px;
+}
+
+.product-rating span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-left: 4px;
+}
+
+.product-reason {
+  margin: 6px 0 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.product-link {
+  display: inline-block;
+  font-size: 12px;
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+
+.product-link:hover {
+  color: #c4b5fd;
+}
+
+/* Brief section */
+.brief-section {
+  padding: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.brief-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.brief-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.brief-toggle h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.brief-toggle svg {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.brief-download-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.brief-download-btn:hover {
+  background: rgba(167, 139, 250, 0.1);
+  border-color: rgba(167, 139, 250, 0.2);
+  color: #a78bfa;
+}
+
+.brief-content {
+  margin-top: 16px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 22px;
+  border-radius: 12px;
+  line-height: 1.65;
+  max-height: 500px;
+  overflow-y: auto;
+  animation: expandIn 0.25s ease;
+}
+
+@keyframes expandIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Markdown styling inside dark theme */
+.brief-content.markdown-body h1 {
+  font-size: 18px;
+  margin: 18px 0 8px;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 6px;
+}
+
+.brief-content.markdown-body h2 {
+  font-size: 16px;
+  margin: 16px 0 6px;
+  color: #c4b5fd;
+}
+
+.brief-content.markdown-body h3 {
+  font-size: 14px;
+  margin: 12px 0 4px;
+  color: #a78bfa;
+}
+
+.brief-content.markdown-body p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.brief-content.markdown-body ul,
+.brief-content.markdown-body ol {
+  margin: 4px 0 10px;
+  padding-left: 20px;
+}
+
+.brief-content.markdown-body li {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 3px;
+}
+
+.brief-content.markdown-body code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #e2e8f0;
+}
+
+.brief-content.markdown-body pre {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.brief-content.markdown-body hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin: 14px 0;
+}
+
+.brief-content.markdown-body strong {
+  color: #e2e8f0;
+}
+
+.brief-content.markdown-body a {
+  color: #a78bfa;
+}
+
+@media (max-width: 600px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brief-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
