@@ -8,10 +8,6 @@ try:
 except ImportError:
     Agent = None
     Task = None
-try:
-    from langchain_ollama import OllamaLLM
-except ImportError:
-    OllamaLLM = None
 from typing import Dict, List, Any
 import json
 import asyncio
@@ -20,17 +16,12 @@ import aiohttp
 from pathlib import Path
 from loguru import logger
 from config.settings import (
-    OLLAMA_BASE_URL, OLLAMA_MODEL, SCRAPE_TIMEOUT,
+    SCRAPE_TIMEOUT,
     PLAYWRIGHT_HEADLESS, USER_AGENT, TRENDS_DIR
 )
 from config.utils import save_trends_manifest
 
 llm = None
-if OllamaLLM is not None:
-    try:
-        llm = OllamaLLM(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL)
-    except Exception:
-        pass
 
 
 class TrendHunterAgent:

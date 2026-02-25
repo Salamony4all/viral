@@ -3,9 +3,8 @@ crewai==0.28.8
 langchain==0.1.16
 langchain-community==0.0.38
 
-# LLM & Embeddings (Ollama local)
-ollama>=0.1.0
-langchain-ollama>=0.1.0
+# LLM & Embeddings (Baidu/Gemini preferred)
+# ollama removed to streamline build
 
 # OpenAI-compatible API (Baidu AI Studio / Ernie)
 openai>=1.0.0
@@ -28,7 +27,7 @@ python-dotenv==1.0.0
 pydantic==2.5.0
 
 # File & Media Operations
-ffmpeg-python==0.2.1
+ffmpeg-python==0.2.0
 imageio-ffmpeg>=0.5.1
 imageio>=2.34.0
 pillow==10.1.0

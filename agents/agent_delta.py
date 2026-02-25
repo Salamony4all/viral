@@ -8,10 +8,6 @@ try:
 except ImportError:
     Agent = None
     Task = None
-try:
-    from langchain_ollama import OllamaLLM
-except ImportError:
-    OllamaLLM = None
 from typing import Dict, List, Any, Optional
 import json
 import asyncio
@@ -20,15 +16,10 @@ from pathlib import Path
 from loguru import logger
 import requests
 from config.settings import (
-    OLLAMA_BASE_URL, OLLAMA_MODEL, ASSETS_DIR, MONETIZATION_FOCUS
+    ASSETS_DIR, MONETIZATION_FOCUS
 )
 
 llm = None
-if OllamaLLM is not None:
-    try:
-        llm = OllamaLLM(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL)
-    except Exception:
-        pass
 
 logger_delta = logger.bind(name="ProfitOracle")
 

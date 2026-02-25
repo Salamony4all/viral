@@ -21,12 +21,10 @@ for dir_path in [TRENDS_DIR, ASSETS_DIR, RENDER_DIR, REVIEW_DIR]:
     dir_path.mkdir(parents=True, exist_ok=True)
 
 # Local Service URLs
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 COMFYUI_BASE_URL = os.getenv("COMFYUI_BASE_URL", "http://localhost:8188")
 COMFYUI_WEBSOCKET_URL = os.getenv("COMFYUI_WEBSOCKET_URL", "ws://localhost:8188/ws")
 
 # LLM Models
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "nomic-embed-text")
 
 # TikTok / Content Config

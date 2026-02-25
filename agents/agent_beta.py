@@ -12,17 +12,13 @@ try:
 except ImportError:
     Agent = None
     Task = None
-try:
-    from langchain_ollama import OllamaLLM
-except ImportError:
-    OllamaLLM = None
 from typing import Dict, List, Any, Optional
 import json
 from datetime import datetime
 from pathlib import Path
 from loguru import logger
 from config.settings import (
-    OLLAMA_BASE_URL, OLLAMA_MODEL, ASSETS_DIR, CONTENT_LENGTH_SECONDS,
+    ASSETS_DIR, CONTENT_LENGTH_SECONDS,
     BAIDU_AI_API_KEY, BAIDU_AI_BASE_URL, BAIDU_AI_MODEL, BAIDU_AI_FALLBACK_MODEL,
     GOOGLE_VEO_API_KEY,
 )
@@ -31,11 +27,6 @@ from google import genai
 import asyncio
 
 llm = None
-if OllamaLLM is not None:
-    try:
-        llm = OllamaLLM(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL)
-    except Exception:
-        pass
 
 
 # ======================================================================
@@ -567,7 +558,7 @@ Generate the script now:
             return None
 
     async def _call_llm(self, prompt: str) -> tuple:
-        """Returns (content, source) where source is 'gemini|baidu|ollama|'."""
+        """Returns (content, source) where source is 'gemini|baidu'. Fallback to template."""
         # 1. Try Gemini (Premium)
         gemini_out = await self._call_gemini(prompt)
         if gemini_out:
@@ -578,16 +569,8 @@ Generate the script now:
         if out:
             return (out, "baidu")
 
-        if self.llm is None:
-            self.logger.info("LLM not available — using template engine.")
-            return ("", "")
-        try:
-            self.logger.debug("Calling Ollama LLM...")
-            resp = await asyncio.to_thread(self.llm.invoke, prompt)
-            return (resp, "ollama")
-        except Exception as e:
-            self.logger.error(f"LLM call failed: {e}. Using template engine.")
-            return ("", "")
+        self.logger.info("Premium LLMs unavailable — using template engine.")
+        return ("", "")
 
     def _parse_script_to_columns(self, content: str) -> List[Dict[str, str]]:
         """Parse script text into columns. Handles markdown, multiple formats."""
