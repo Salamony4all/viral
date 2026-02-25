@@ -17,15 +17,15 @@ import {
   ToggleLeft,
   ToggleRight,
 } from 'lucide-react';
-import { ChatBox } from '@/components/ChatBox';
-import { VideoPreview } from '@/components/VideoPreview';
-import { ScriptDisplay } from '@/components/ScriptDisplay';
-import { MonetizationBrief } from '@/components/MonetizationBrief';
-import { ToastContainer, useToast } from '@/components/Toast';
-import { LogConsole } from '@/components/LogConsole';
-import { HistoryList } from '@/components/HistoryList';
-import { agentService } from '@/services/agentService';
-import type { GenerationResult, ScriptColumn } from '@/types';
+import { ChatBox } from '../components/ChatBox';
+import { VideoPreview } from '../components/VideoPreview';
+import { ScriptDisplay } from '../components/ScriptDisplay';
+import { MonetizationBrief } from '../components/MonetizationBrief';
+import { ToastContainer, useToast } from '../components/Toast';
+import { LogConsole } from '../components/LogConsole';
+import { HistoryList } from '../components/HistoryList';
+import { agentService } from '../services/agentService';
+import type { GenerationResult, ScriptColumn } from '../types';
 import './Dashboard.css';
 
 const PHASE_LABELS: Record<string, string> = {

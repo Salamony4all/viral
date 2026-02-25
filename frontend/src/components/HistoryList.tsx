@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { History, Play, CheckCircle2, AlertCircle, FileText, Film, X } from 'lucide-react';
-import { agentService } from '@/services/agentService';
+import { agentService } from '../services/agentService';
 import './HistoryList.css';
 
 interface GenerationHistory {

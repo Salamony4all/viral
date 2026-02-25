@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader, Trash2 } from 'lucide-react';
-import type { Message } from '@/types';
+import type { Message } from '../types';
 import './ChatBox.css';
 
 interface ChatBoxProps {

@@ -8,7 +8,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import type { Product, EarningsProjection } from '@/types';
+import type { Product, EarningsProjection } from '../types';
 import './MonetizationBrief.css';
 
 interface MonetizationBriefProps {
