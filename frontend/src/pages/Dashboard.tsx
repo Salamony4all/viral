@@ -579,7 +579,7 @@ export const Dashboard: React.FC = () => {
               {activeTab === 'video' && (
                 <>
                   <VideoPreview
-                    src={result.video_path ? `/api${result.video_path}` : undefined}
+                    src={result.video_path ? `${API_BASE}${result.video_path}` : undefined}
                     title={`Video: ${result.topic}`}
                   />
 

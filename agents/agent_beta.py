@@ -285,16 +285,30 @@ class NarrativeArchitectAgent:
         self.trends_data = trends_data or {"seo_keywords": [], "hook_patterns": []}
         self.content_duration = CONTENT_LENGTH_SECONDS
 
-    def brainstorm(self, prompt: str) -> str:
+    async def brainstorm(self, prompt: str) -> str:
+        """Interactive brainstorm using Google Gemini about narrative and strategy."""
+        from google import genai
+        from config.settings import GOOGLE_VEO_API_KEY
+
         system_ctx = (
             "You are Agent Beta, a Viral Psychology Expert & Copywriter "
             "with 15+ years in viral marketing. You understand psychological triggers, "
             "pattern recognition, and the neuroscience of attention."
         )
         full_prompt = f"{system_ctx}\n\nUser question: {prompt}\n\nProvide creative direction:"
+        
         try:
-            return self.llm.invoke(full_prompt)
-        except Exception:
+            if not GOOGLE_VEO_API_KEY:
+                raise ValueError("API Key missing")
+            
+            client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
+            response = client.models.generate_content(
+                model="gemini-1.5-flash",
+                contents=full_prompt
+            )
+            return response.text
+        except Exception as e:
+            self.logger.warning(f"Gemini brainstorm failed: {e}")
             return (
                 f"[Agent Beta - Narrative Architect]\n\n"
                 f"Regarding: {prompt}\n\n"
@@ -304,7 +318,7 @@ class NarrativeArchitectAgent:
                 f"3. Keep sentences under 8 words for punch\n"
                 f"4. End with curiosity hook\n"
                 f"5. Add pacing cues: PAUSE, BEAT, TRANSITION\n\n"
-                f"(LLM offline - showing cached guidance)"
+                f"(Template fallback - Gemini offline)"
             )
 
     def get_agent(self):
@@ -542,32 +556,39 @@ Generate the script now:
                 self.logger.warning(f"Baidu AI ({model}) failed: {e}. Trying fallback.")
         return ""
 
-    async def _call_gemini(self, prompt: str) -> Optional[str]:
+    async def call_gemini(self, prompt: str) -> Optional[str]:
         """Call Google Gemini 1.5 for premium scripting."""
         try:
             if not GOOGLE_VEO_API_KEY:
+                self.logger.warning("GOOGLE_VEO_API_KEY missing - skipping Gemini scripting")
                 return None
+            
+            self.logger.info("Calling Google Gemini 1.5-Flash for script...")
             client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
             response = client.models.generate_content(
                 model="gemini-1.5-flash",
                 contents=prompt
             )
-            return response.text
+            if response.text:
+                self.logger.success("Gemini script generated successfully")
+                return response.text
+            return None
         except Exception as e:
             self.logger.warning(f"Gemini scripting failed: {e}")
             return None
 
     async def _call_llm(self, prompt: str) -> tuple:
         """Returns (content, source) where source is 'gemini|baidu'. Fallback to template."""
-        # 1. Try Gemini (Premium)
-        gemini_out = await self._call_gemini(prompt)
+        # 1. Try Gemini (Primary per updated request)
+        gemini_out = await self.call_gemini(prompt)
         if gemini_out:
             return (gemini_out, "gemini")
 
-        # 2. Try Baidu
-        out = await self._call_baidu_ai(prompt)
-        if out:
-            return (out, "baidu")
+        # 2. Try Baidu (Secondary Fallback)
+        if BAIDU_AI_API_KEY:
+            out = await self._call_baidu_ai(prompt)
+            if out:
+                return (out, "baidu")
 
         self.logger.info("Premium LLMs unavailable — using template engine.")
         return ("", "")

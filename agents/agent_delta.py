@@ -36,8 +36,11 @@ class ProfitOracleAgent:
         self.script_data = script_data or {}
         self.topic = self.script_data.get("topic", "general")
     
-    def brainstorm(self, prompt: str) -> str:
-        """Interactive brainstorm using LLM about monetization strategies."""
+    async def brainstorm(self, prompt: str) -> str:
+        """Interactive brainstorm using Google Gemini about monetization strategies."""
+        from google import genai
+        from config.settings import GOOGLE_VEO_API_KEY
+        
         system_context = (
             "You are Agent Delta, an E-commerce Strategist & Monetization Expert "
             "with 8+ years in affiliate marketing, TikTok Shop optimization, and "
@@ -45,10 +48,19 @@ class ProfitOracleAgent:
             "position products for maximum revenue without being salesy."
         )
         full_prompt = f"{system_context}\n\nUser question: {prompt}\n\nProvide monetization strategy:"
+        
         try:
-            return self.llm.invoke(full_prompt)
+            if not GOOGLE_VEO_API_KEY:
+                raise ValueError("API Key missing")
+            
+            client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
+            response = client.models.generate_content(
+                model="gemini-1.5-flash",
+                contents=full_prompt
+            )
+            return response.text
         except Exception as e:
-            self.logger.warning(f"LLM brainstorm failed: {e}")
+            self.logger.warning(f"Gemini brainstorm failed: {e}")
             return (
                 f"[Agent Delta - Profit Oracle]\n\n"
                 f"Regarding: {prompt}\n\n"
@@ -60,7 +72,7 @@ class ProfitOracleAgent:
                 f"5. Month 1-3: Build audience with free value\n"
                 f"6. Month 3+: Layer in affiliates gradually\n"
                 f"7. Apply for TikTok Creator Fund ($200-$10k/month)\n\n"
-                f"(LLM offline - showing cached strategy)"
+                f"(Template fallback - Gemini offline)"
             )
     
     def get_agent(self):
@@ -108,12 +120,22 @@ Respond in JSON format.
 """
         
         try:
-            response = self.llm.invoke(prompt)
-            # Parse response as JSON
-            analysis = json.loads(response) if "{" in response else self._get_fallback_analysis()
+            from google import genai
+            from config.settings import GOOGLE_VEO_API_KEY
+            
+            if not GOOGLE_VEO_API_KEY:
+                return self._get_fallback_analysis()
+                
+            client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
+            response = client.models.generate_content(
+                model="gemini-1.5-flash",
+                contents=prompt,
+                config={"response_mime_type": "application/json"}
+            )
+            analysis = json.loads(response.text)
             return analysis
         except Exception as e:
-            self.logger.warning(f"LLM analysis failed: {e}")
+            self.logger.warning(f"Gemini analysis failed: {e}")
             return self._get_fallback_analysis()
     
     def _get_fallback_analysis(self) -> Dict[str, Any]:
@@ -242,6 +264,9 @@ Respond in JSON format.
         
         strategies = []
         
+        from google import genai
+        from config.settings import GOOGLE_VEO_API_KEY
+        
         for product in products:
             prompt = f"""
 Create 3 unique, native TikTok CTAs for this product without being salesy:
@@ -249,14 +274,24 @@ Product: {product.get('name')}
 Context: Lifestyle/productivity content
 Restrictions: No "Click the link" - must feel organic
 
-Provide JSON with: cta_text, placement_timing, delivery_tone
+Respond ONLY in JSON format with: cta_text, placement_timing, delivery_tone
 """
             
             try:
-                response = self.llm.invoke(prompt)
-                strategy = json.loads(response) if "{" in response else self._get_fallback_cta(product)
+                if not GOOGLE_VEO_API_KEY:
+                    strategies.append(self._get_fallback_cta(product))
+                    continue
+                    
+                client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
+                response = client.models.generate_content(
+                    model="gemini-1.5-flash",
+                    contents=prompt,
+                    config={"response_mime_type": "application/json"}
+                )
+                strategy = json.loads(response.text)
                 strategies.append(strategy)
-            except:
+            except Exception as e:
+                self.logger.warning(f"Gemini CTA generation failed: {e}")
                 strategies.append(self._get_fallback_cta(product))
         
         return strategies

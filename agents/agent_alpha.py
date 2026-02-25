@@ -34,8 +34,11 @@ class TrendHunterAgent:
         self.llm = llm
         self.logger = logger
     
-    def brainstorm(self, prompt: str) -> str:
-        """Interactive brainstorm using LLM about trends and opportunities."""
+    async def brainstorm(self, prompt: str) -> str:
+        """Interactive brainstorm using Google Gemini about trends and opportunities."""
+        from google import genai
+        from config.settings import GOOGLE_VEO_API_KEY
+        
         system_context = (
             "You are Agent Alpha, a Senior Data Engineer & Trend Analyst "
             "specializing in TikTok and YouTube viral mechanics. You understand "
@@ -43,10 +46,19 @@ class TrendHunterAgent:
             "early-stage trends before saturation. Prioritize 'Saves' over vanity metrics."
         )
         full_prompt = f"{system_context}\n\nUser question: {prompt}\n\nProvide actionable insights:"
+        
         try:
-            return self.llm.invoke(full_prompt)
+            if not GOOGLE_VEO_API_KEY:
+                raise ValueError("API Key missing")
+            
+            client = genai.Client(api_key=GOOGLE_VEO_API_KEY)
+            response = client.models.generate_content(
+                model="gemini-1.5-flash",
+                contents=full_prompt
+            )
+            return response.text
         except Exception as e:
-            self.logger.warning(f"LLM brainstorm failed: {e}")
+            self.logger.warning(f"Gemini brainstorm failed: {e}")
             return (
                 f"[Agent Alpha - Trend Hunter]\n\n"
                 f"Regarding: {prompt}\n\n"
@@ -56,7 +68,7 @@ class TrendHunterAgent:
                 f"3. Emerging niches (2026): AI Personal Assistants, Green Tech DIY, Longevity Micro-Habits\n"
                 f"4. Content format: 'Day in Life' (POV), High-contrast text overlays, Minimalist aesthetic\n"
                 f"5. Strategic Hook: 'Why 99% of people are failing at {prompt}'\n\n"
-                f"(LLM offline - showing 2026 trend data)"
+                f"(Template fallback - Gemini offline)"
             )
     
     def get_agent(self):

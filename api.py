@@ -625,16 +625,16 @@ async def brainstorm(request: BrainstormRequest):
     try:
         if "alpha" in agent_name or "trend" in agent_name:
             from agents.agent_alpha import TrendHunterAgent
-            content = TrendHunterAgent().brainstorm(request.prompt)
+            content = await TrendHunterAgent().brainstorm(request.prompt)
         elif "beta" in agent_name or "narrative" in agent_name or "script" in agent_name:
             from agents.agent_beta import NarrativeArchitectAgent
-            content = NarrativeArchitectAgent().brainstorm(request.prompt)
+            content = await NarrativeArchitectAgent().brainstorm(request.prompt)
         elif "gamma" in agent_name or "media" in agent_name or "video" in agent_name:
             from agents.agent_gamma import MediaForgeAgent
-            content = MediaForgeAgent().brainstorm(request.prompt)
+            content = MediaForgeAgent().brainstorm(request.prompt) # Note: Gamma brainstorm is still sync as it's static
         elif "delta" in agent_name or "profit" in agent_name or "money" in agent_name:
             from agents.agent_delta import ProfitOracleAgent
-            content = ProfitOracleAgent().brainstorm(request.prompt)
+            content = await ProfitOracleAgent().brainstorm(request.prompt)
         else:
             raise HTTPException(status_code=400, detail=f"Unknown agent: {request.agent}")
 

@@ -634,14 +634,17 @@ class MediaForgeAgent:
                 self.logger.info(f"Scene {idx} Veo operation started: {operation.name}")
 
                 # Poll for completion — pass the operation object directly (per docs)
-                max_retries = 36  # ~6 mins at 10s intervals
+                # Poll for completion
+                max_retries = 60  # ~10 mins at 10s intervals (Veo is slow on Tier 1)
                 retries = 0
                 while not operation.done and retries < max_retries:
                     time.sleep(10)
                     retries += 1
                     try:
-                        operation = client.operations.get(operation)
-                        self.logger.info(f"Scene {idx} Veo polling... (attempt {retries})")
+                        # Use the operation name for safer retrieval
+                        operation = client.operations.get(name=operation.name)
+                        status = "Queued/Processing" if not operation.done else "Done"
+                        self.logger.info(f"Scene {idx} Veo: {status} (attempt {retries})")
                     except Exception as e:
                         self.logger.warning(f"Scene {idx} Veo poll error (retry {retries}): {e}")
 
@@ -1328,13 +1331,15 @@ async def run_media_forge(
     veo_audio_path = await forge.extract_veo_audio(clip_paths)
 
     # 4. Assemble & Mix (VO 1.0 + Veo 0.3)
-    video_path = await forge.assemble_video(
-        clip_paths, voiceover_path, veo_audio_path, "final_render.mp4"
+    # Use a temporary name for the assembled video to avoid FFmpeg read/write conflicts
+    raw_assembly_path = await forge.assemble_video(
+        clip_paths, voiceover_path, veo_audio_path, "raw_assembly.mp4"
     )
 
     # 5. Add Premium Captions (Better Font + Style)
+    # Now write to the final filename
     final_video_path = await forge.add_captions_to_video(
-        video_path, captions, "final_render.mp4" # Overwrite for simplicity
+        raw_assembly_path, captions, "final_render.mp4"
     )
 
     return {
