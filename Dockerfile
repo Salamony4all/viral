@@ -1,11 +1,10 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# Use the official Microsoft Playwright Python image
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
-# Install system dependencies
+# Install additional system dependencies
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libmagic1 \
-    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -16,8 +15,8 @@ COPY requirements.txt .
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install playwright browsers
-RUN playwright install --with-deps chromium
+# Install playwright browser
+RUN playwright install chromium
 
 # Copy the rest of the application code
 COPY . .
