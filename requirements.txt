@@ -4,8 +4,8 @@ langchain==0.1.16
 langchain-community==0.0.38
 
 # LLM & Embeddings (Ollama local)
-ollama==0.0.15
-langchain-ollama==0.0.1
+ollama>=0.1.0
+langchain-ollama>=0.1.0
 
 # OpenAI-compatible API (Baidu AI Studio / Ernie)
 openai>=1.0.0
