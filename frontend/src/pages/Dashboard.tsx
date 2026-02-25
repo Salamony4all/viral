@@ -239,7 +239,7 @@ export const Dashboard: React.FC = () => {
 
   // Fetch initial connection status from backend
   useEffect(() => {
-    agentService.getSocialStatus().then((status) => {
+    agentService.getSocialStatus().then((status: any) => {
       setSocialConnections(
         Object.fromEntries(
           Object.entries(status).map(([p, v]: [string, any]) => [p, v.connected])
