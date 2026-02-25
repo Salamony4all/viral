@@ -224,6 +224,7 @@ async def generate_campaign(request: GenerateRequest, background_tasks: Backgrou
     Phase 1: Trend hunting + script generation.
     Returns generation_id; poll GET /status/{id} until status == "script_ready".
     """
+    logger.info(f"🚀 Received Generation Request - Topic: {request.topic}")
     if not request.topic.strip():
         raise HTTPException(status_code=400, detail="Topic cannot be empty")
 
